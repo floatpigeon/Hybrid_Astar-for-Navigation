@@ -17,14 +17,14 @@ public:
   }
 
   float calc_h(std::pair<int, int> current, std::pair<int, int> end) {
-    return (abs(current.first - end.second) + abs(current.first - end.second));
+    return (abs(current.first - end.first) + abs(current.second - end.second));
   }
   float calc_g(int x1, int y1, int x2, int y2) {
     return sqrt(pow((x1 - x2), 2) + pow((y1 - y2), 2));
   }
-
   void changeState(Node node, State state) { gridmap[node.x][node.y] = state; }
-  std::vector<Node> getpath(std::pair<int, int> begin, std::pair<int, int> end);
+  std::vector<std::pair<int, int>> getpath(std::pair<int, int> begin,
+                                           std::pair<int, int> end);
 
 private:
   int row, col;
