@@ -5,4 +5,5 @@ set(CMAKE_CXX_STANDARD 11=7)
 
 include_directories(include)
 
-add_executable(Project src/main.cpp src/map.cpp src/hybrid_Astar.cpp)
+add_executable(Project src/main.cpp src/map.cpp src/hybrid_Astar.cpp src/map_creator.cpp)
+# add_executable(Project src/test.cpp src/map.cpp src/hybrid_Astar.cpp src/map_creator.cpp)

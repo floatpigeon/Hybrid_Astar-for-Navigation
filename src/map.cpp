@@ -1,6 +1,6 @@
+#include "map.hpp"
 #include <cstddef>
 #include <iostream>
-#include <map.hpp>
 #include <utility>
 #include <vector>
 
@@ -18,10 +18,9 @@ std::vector<std::vector<State>> Map::NumtoState() {
   return statemap;
 }
 
-std::vector<std::vector<State>> Map::StatetoGrid() {
+std::vector<std::vector<State>> Map::StatetoGrid(int size) {
   std::vector<std::vector<State>> gridmap(
       row / grid_size, std::vector<State>(col / grid_size, UNKNOW));
-
   for (int i = 0; i < row; i++) {
     int x = i / grid_size;
     for (int j = 0; j < col; j++) {
@@ -48,9 +47,7 @@ void Map::show() {
       switch (State_map[i][j]) {
       case UNKNOW:
       case CLOSED:
-        break;
       case OPEND:
-        std::cout << BLUE << "  " << RESET;
         break;
       case EMPTY:
         std::cout << WHITE << "  " << RESET;

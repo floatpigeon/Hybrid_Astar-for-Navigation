@@ -1,6 +1,5 @@
 #pragma once
 
-#include <Node.hpp>
 #include <string>
 #include <utility>
 #include <vector>
@@ -24,10 +23,11 @@ public:
   };
 
   std::vector<std::vector<State>> NumtoState();
-  std::vector<std::vector<State>> StatetoGrid();
+  std::vector<std::vector<State>> StatetoGrid(int size);
   // std::vector<std::vector<State>> NumtoGrid();
 
   std::vector<std::vector<State>> getmap_State() { return State_map; }
+  std::vector<std::vector<State>> getmap_Grid() { return Grid_map; }
   std::vector<std::vector<int>> getmap_int() { return Num_map; }
 
   void State_change(std::pair<int, int> position, State state);

@@ -1,7 +1,7 @@
+#include "hybrid_Astar.hpp"
 #include "Node.hpp"
 #include "map.hpp"
 #include <cstddef>
-#include <hybrid_Astar.hpp>
 #include <iostream>
 #include <queue>
 #include <utility>
@@ -57,7 +57,7 @@ std::vector<std::pair<int, int>> HybridAstar::getpath(std::pair<int, int> begin,
       if (next.first < 0 || next.first >= row || next.second < 0 ||
           next.second >= col)
         continue;
-      if (gridmap[next.first][next.second] != EMPTY)
+      if (Astar_map[next.first][next.second] != EMPTY)
         continue;
 
       Node *openNode = new Node(

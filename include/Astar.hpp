@@ -1,7 +1,7 @@
 #ifndef PROJECT_H
 #define PROJECT_H
 
-#include <Node.hpp>
+#include "Node.hpp"
 #include <stack>
 #include <vector>
 
