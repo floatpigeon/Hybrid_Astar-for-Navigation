@@ -37,11 +37,25 @@ std::vector<std::vector<State>> Map::StatetoGrid(int size) {
   return gridmap;
 }
 
+std::vector<std::vector<State>> Map::NumtoGrid(int size) {
+  NumtoState();
+  StatetoGrid(size);
+  return Grid_map;
+}
+
 void Map::State_change(std::pair<int, int> position, State state) {
   State_map[position.first][position.second] = state;
 }
 
 void Map::show() {
+  for (int i = 0; i < col; i++) {
+    if (i % 10 == 0) {
+      std::cout << BLUE << "  " << RESET;
+    } else
+      std::cout << WHITE << "  " << RESET;
+  }
+  std::cout << std::endl;
+
   for (int i = 0; i < row; i++) {
     for (int j = 0; j < col; j++) {
       switch (State_map[i][j]) {
@@ -69,9 +83,18 @@ void Map::show() {
   }
 }
 
-void Map::updatePath(std::vector<std::pair<int, int>> path) {
+void Map::updatePath_Statemap(std::vector<std::pair<int, int>> path) {
   for (size_t i; i < path.size(); i++) {
     // if (State_map[path[i].first][path[i].second] == EMPTY)
+    State_change(path[i], PATH);
+  }
+}
+
+void Map::updatePath_Gridmap(std::vector<std::pair<int, int>> Gridpath) {
+  std::vector<std::pair<int, int>> path(Gridpath.size());
+  for (size_t i; i < path.size(); i++) {
+    path[i].first = Gridpath[i].first * grid_size;
+    path[i].second = Gridpath[i].second * grid_size;
     State_change(path[i], PATH);
   }
 }

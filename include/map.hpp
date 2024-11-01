@@ -9,7 +9,7 @@ const std::string BLACK = "\033[40m";
 const std::string RED = "\033[41m";
 const std::string GREEN = "\033[42m";
 const std::string WHITE = "\033[47m";
-const std::string BLUE = "\033[45m";
+const std::string BLUE = "\033[46m";
 
 enum State { UNKNOW, EMPTY, OBSTACLE, CLOSED, OPEND, OBJECT, PATH, BEGIN, END };
 
@@ -24,14 +24,15 @@ public:
 
   std::vector<std::vector<State>> NumtoState();
   std::vector<std::vector<State>> StatetoGrid(int size);
-  // std::vector<std::vector<State>> NumtoGrid();
+  std::vector<std::vector<State>> NumtoGrid(int size);
 
   std::vector<std::vector<State>> getmap_State() { return State_map; }
   std::vector<std::vector<State>> getmap_Grid() { return Grid_map; }
   std::vector<std::vector<int>> getmap_int() { return Num_map; }
 
   void State_change(std::pair<int, int> position, State state);
-  void updatePath(std::vector<std::pair<int, int>> path);
+  void updatePath_Statemap(std::vector<std::pair<int, int>> path);
+  void updatePath_Gridmap(std::vector<std::pair<int, int>> path);
   void show();
 
 private:

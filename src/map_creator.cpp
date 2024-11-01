@@ -60,3 +60,17 @@ std::vector<std::vector<int>> regular_Num_map(int row, int col,
   }
   return array;
 }
+
+std::vector<std::vector<int>> map_enlarge(std::vector<std::vector<int>> map,
+                                          int n) {
+  int row = map.size() * n;
+  int col = map[0].size() * n;
+  std::vector<std::vector<int>> large_map(row, std::vector<int>(col));
+
+  for (int i = 0; i < row; i++) {
+    for (int j = 0; j < col; j++) {
+      large_map[i][j] = map[i / n][j / n];
+    }
+  }
+  return large_map;
+}

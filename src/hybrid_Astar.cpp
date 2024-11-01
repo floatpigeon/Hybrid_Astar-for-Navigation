@@ -9,64 +9,78 @@
 
 std::vector<std::pair<int, int>> HybridAstar::getpath(std::pair<int, int> begin,
                                                       std::pair<int, int> end) {
+  std::vector<std::vector<State>> grid(
+      row / Grid_size, std::vector<State>(col / Grid_size, UNKNOW));
 
-  // std::cout << "begin:" << begin.first << "end" << end.first << std::endl;
+  for (int i = 0; i < row; i++) {
+    int x = i / Grid_size;
+    for (int j = 0; j < col; j++) {
+      int y = j / Grid_size;
+      if (grid[x][y] == UNKNOW) {
+        if (Astar_map[i][j] == OBSTACLE)
+          grid[x][y] = OBSTACLE;
+        else
+          grid[x][y] = EMPTY;
+      }
+    }
+  }
 
   std::vector<std::pair<int, int>> direction = {
       {1, 0}, {-1, 0}, {0, 1}, {0, -1}};
 
-  // Node beginNode(begin.first, begin.second, 0, calc_h(begin, end), nullptr);
   Node *beginNode =
       new Node(begin.first, begin.second, 0, calc_h(begin, end), nullptr);
-
-  // std::cout << "beginNode:" << beginNode.x << "h:" << beginNode.value_h
-  //           << std::endl;
-
   OpenList.push(*beginNode);
-  changeState(*beginNode, CLOSED);
+  grid[beginNode->x / Grid_size][beginNode->y / Grid_size] = CLOSED;
 
   while (!OpenList.empty()) {
     Node currentNode = OpenList.top();
     OpenList.pop();
-    changeState(currentNode, CLOSED);
+    grid[beginNode->x / Grid_size][beginNode->y / Grid_size] = CLOSED;
 
-    std::cout << "current:" << currentNode.x << "h:" << currentNode.value_h
-              << std::endl;
+    if (currentNode.x / Grid_size == end.first / Grid_size &&
+        currentNode.y / Grid_size == end.second / Grid_size) {
 
-    if (currentNode.x == end.first && currentNode.y == end.second) {
       std::vector<std::pair<int, int>> path;
       Node *node = new Node(currentNode);
       std::cout << "result" << std::endl;
 
-      while (node != nullptr) {
-        std::cout << ".." << std::endl;
+      while (node->parent != nullptr) {
+        auto ptr = node;
+        node = node->parent;
         path.emplace_back(node->position());
         changeState(*node, PATH);
-        node = node->parent;
+        delete ptr;
       }
       delete node;
       return path;
     }
 
     for (size_t i = 0; i < direction.size(); i++) {
+      std::pair<int, int> nextgrid;
+      nextgrid.first = currentNode.x / Grid_size + direction[i].first;
+      nextgrid.second = currentNode.y / Grid_size + direction[i].second;
 
       std::pair<int, int> next;
-      next.first = currentNode.x + direction[i].first;
-      next.second = currentNode.y + direction[i].second;
+      next.first = nextgrid.first * Grid_size;
+      next.second = nextgrid.second * Grid_size;
 
-      if (next.first < 0 || next.first >= row || next.second < 0 ||
-          next.second >= col)
+      if (nextgrid.first < 0 || nextgrid.first >= row / Grid_size ||
+          nextgrid.second < 0 || nextgrid.second >= col / Grid_size)
         continue;
-      if (Astar_map[next.first][next.second] != EMPTY)
+      if (grid[nextgrid.first][nextgrid.second] != EMPTY)
         continue;
 
-      Node *openNode = new Node(
-          next.first, next.second,
-          calc_g(next.first, next.second, currentNode.x, currentNode.y),
-          calc_h(next, end), new Node(currentNode));
+      Node *parent = new Node(currentNode);
+      Node *openNode =
+          new Node(next.first, next.second,
+                   calc_g(next.first, next.second, parent->x, parent->y),
+                   calc_h(next, end), parent);
 
       OpenList.push(*openNode);
-      changeState(*openNode, OPEND);
+      grid[nextgrid.first][nextgrid.second] = OPEND;
+
+      delete openNode;
     }
   }
   return {};
