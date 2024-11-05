@@ -1,5 +1,8 @@
 #pragma once
 
+// #include <Eigen/src/Core/Matrix.h>
+
+#include <Eigen/Dense>
 #include <memory>
 #include <utility>
 #include <vector>
@@ -11,9 +14,10 @@ public:
         value_h = 0;
     }
 
-    std::shared_ptr<Node> parent;
+    const std::shared_ptr<Node> parent;
     std::pair<float, float> site() const;
-
+    Eigen::Vector2f position() const;
+    float test(Eigen::Vector2f end, int type = 0);
     float value_f() const;
 
     // bool operator>(const std::shared_ptr<Node>& other) const {
@@ -25,6 +29,7 @@ public:
 private:
     float calc_g();
     float calc_h(std::pair<float, float> end, int type = 0);
+    // float test(Eigen::Vector2f end, int type = 0);
     float x, y;
     float value_g, value_h;
 };

@@ -1,5 +1,8 @@
 #include "Node.hpp"
 
+// #include <Eigen/src/Core/Matrix.h>
+
+// #include <chrono>
 #include <cmath>
 #include <iostream>
 #include <memory>
@@ -22,12 +25,19 @@ float Node::calc_g() {
 }
 
 float Node::calc_h(std::pair<float, float> end, int type) {
+    // auto start = std::chrono::high_resolution_clock::now();
+
     float i = x - end.first;
     float j = y - end.second;
     if (type)
         value_h = sqrtf(i * i + j * j);
     else
-        value_h = std::abs(i) + std::abs(j);
+        value_h = abs(i) + abs(j);
+
+    // auto _end = std::chrono::high_resolution_clock::now();
+    // std::chrono::duration<double> duration = _end - start;
+    // std::cout << "Time taken: " << duration.count() << " seconds" << std::endl;
+
     return value_h;
 }
 
@@ -47,13 +57,35 @@ std::vector<std::shared_ptr<Node>> Node::GenerateChildren(float step,
         return children;
     }
 
-    for (int angle = 0; angle < 8; angle++) {
-        std::pair<float, float> current(x + step * cosf(angle / 4.0 * M_PI),
-                                        y + step * sinf(angle / 4.0 * M_PI));
+    float branch = 16;
+    for (int angle = 0; angle < branch; angle++) {
+        std::pair<float, float> current(x + step * cosf(angle / branch / 2.0 * M_PI),
+                                        y + step * sinf(angle / branch / 2.0 * M_PI));
         std::shared_ptr<Node> child =
             std::make_shared<Node>(current.first, current.second, shared_from_this());
         child->calc_h(end);
         children.emplace_back(child);
     }
     return children;
+}
+
+Eigen::Vector2f Node::position() const {
+    return Eigen::Vector2f(x, y);
+}
+
+float Node::test(Eigen::Vector2f end, int type) {
+    // auto start = std::chrono::high_resolution_clock::now();
+
+    Eigen::Vector2f point = shared_from_this()->position() - end;
+    std::cout << point.x() << "|" << point.y() << std::endl;
+    if (type)
+        value_h = sqrtf(point.x() * point.x() + point.y() * point.y());
+    else
+        value_h = std::abs(point.x()) + std::abs(point.y());
+
+    // auto _end = std::chrono::high_resolution_clock::now();
+    // std::chrono::duration<double> duration = _end - start;
+    // std::cout << "Time taken: " << duration.count() << " seconds" << std::endl;
+
+    return value_h;
 }
