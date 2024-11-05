@@ -35,11 +35,11 @@ float Node::value_f() const {
     return value_g + value_h;
 };
 
-std::vector<std::shared_ptr<Node>> Node::GenerateChildren(std::pair<float, float>& end) {
-    float step = 1.0;
+std::vector<std::shared_ptr<Node>> Node::GenerateChildren(float step,
+                                                          std::pair<float, float>& end) {
     std::vector<std::shared_ptr<Node>> children;
 
-    if (shared_from_this()->calc_h(end) <= step) {
+    if (shared_from_this()->calc_h(end, 1) <= step) {
         std::shared_ptr<Node> endNode =
             std::make_shared<Node>(end.first, end.second, shared_from_this());
         children.emplace_back(endNode);

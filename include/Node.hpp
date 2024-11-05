@@ -17,7 +17,7 @@ public:
     float value_f() const;
     bool operator>(const Node& other) const { return value_f() > other.value_f(); }
 
-    std::vector<std::shared_ptr<Node>> GenerateChildren(std::pair<float, float>& end);
+    std::vector<std::shared_ptr<Node>> GenerateChildren(float step, std::pair<float, float>& end);
 
 private:
     float calc_g();
