@@ -3,6 +3,7 @@
 #include <cstddef>
 #include <iostream>
 #include <memory>
+#include <ostream>
 #include <queue>
 #include <utility>
 #include <vector>
@@ -21,6 +22,12 @@ void NummapToGridmap(std::vector<std::vector<int>>& nummap,
                 gridmap[i][j] = State::EMPTY;
         }
     }
+}
+
+std::pair<int, int> PositionInWorldToGrid(std::pair<float, float> position) {
+    int x = position.first;
+    int y = position.second;
+    return std::pair<int, int>(x, y);
 }
 
 int main() {
@@ -69,31 +76,55 @@ int main() {
     // currentNode->test(E_end);
     //---------------------------------------------------------------------------------------------
 
-    std::vector<std::vector<int>> my_num_map = {{0, 0, 0}, {1, 0, 0}, {0, 0, 0}};
+    // std::vector<std::vector<int>> my_num_map = {{0, 0, 0}, {1, 0, 0}, {0, 0, 0}};
+    // std::vector<std::vector<State>> my_grid_map(
+    //     my_num_map.size(), std::vector<State>(my_num_map[0].size(), State::UNKNOW));
+    // NummapToGridmap(my_num_map, my_grid_map);
+    // GridMap my_map(std::move(my_grid_map));
+    // std::pair<int, int> z(1, 0);
+    // if (my_map.state(z) == State::OBSTACLE) {
+    //     std::cout << ".." << std::endl;
+    // }
+
+    // std::priority_queue<std::shared_ptr<Node>, std::vector<std::shared_ptr<Node>>, GreaterNode>
+    //     OpenList;
+
+    // std::pair<float, float> end(2.0, 2.0);
+    // std::shared_ptr<Node> beginNode = std::make_shared<Node>(0, 1, nullptr);
+    // OpenList.push(beginNode);
+
+    // std::vector<std::shared_ptr<Node>> children = beginNode->GenerateChildren(1, end);
+
+    // for (const auto& point : children) {
+    //     auto n = PositionInWorldToGrid(point->site());
+
+    //     std::cout << n.first << " " << n.second << std::endl;
+
+    //     if (my_map.state(n) == State::EMPTY) {
+    //         std::cout << "T" << std::endl;
+    //         OpenList.push(point);
+    //     } else
+    //         std::cout << "F" << std::endl;
+    // }
+
+    // while (!OpenList.empty()) {
+    //     std::cout << OpenList.top()->value_f() << " | " << OpenList.top()->site().first << " | "
+    //               << OpenList.top()->site().second << std::endl;
+    //     OpenList.pop();
+    // }
+    //---------------------------------------------------------------------------------------------
+
+    std::vector<std::vector<int>> my_num_map = {
+        {0, 0, 0, 0}, {1, 1, 0, 0}, {0, 0, 0, 0}, {0, 0, 1, 1}};
     std::vector<std::vector<State>> my_grid_map(
         my_num_map.size(), std::vector<State>(my_num_map[0].size(), State::UNKNOW));
     NummapToGridmap(my_num_map, my_grid_map);
     GridMap my_map(std::move(my_grid_map));
 
-    std::priority_queue<std::shared_ptr<Node>, std::vector<std::shared_ptr<Node>>, GreaterNode>
-        OpenList;
-    std::pair<float, float> begin(0, 0);
-    std::pair<float, float> end(2.0, 2.0);
-    std::shared_ptr<Node> beginNode = std::make_shared<Node>(0, 1, nullptr);
-    OpenList.push(beginNode);
+    HybridAstar my_Astar(my_map);
+    my_Astar.Search(std::pair<float, float>{0, 0}, std::pair<float, float>{2, 3});
 
-    std::vector<std::shared_ptr<Node>> children = beginNode->GenerateChildren(1.5, end);
-
-    for (const auto& point : children) {
-        OpenList.push(point);
-    }
-    std::cout << ".." << std::endl;
-
-    while (!OpenList.empty()) {
-        std::cout << OpenList.top()->value_f() << " | " << OpenList.top()->site().first << " | "
-                  << OpenList.top()->site().second << std::endl;
-        OpenList.pop();
-    }
     //---------------------------------------------------------------------------------------------
+
     return 0;
 }
