@@ -15,21 +15,21 @@ std::pair<int, int> Hybrid_Astar::PositionInWorldToGrid(std::pair<float, float> 
 
 std::vector<std::pair<float, float>> Hybrid_Astar::Search(std::pair<float, float> begin,
                                                           std::pair<float, float> end) {
-    std::shared_ptr<Node> beginNode = std::make_shared<Node>(begin.first, begin.second);
+    std::shared_ptr<Node> beginNode = std::make_shared<Node>(begin.first, begin.second, nullptr);
     std::pair<int, int> endGrid = PositionInWorldToGrid(end);
 
-    OpenList.push(*beginNode);
+    OpenList.push(beginNode);
     while (!OpenList.empty()) {
-        std::shared_ptr<Node> currentNode = std::make_shared<Node>(OpenList.top());
+        std::shared_ptr<Node> currentNode = OpenList.top();
+        OpenList.pop();
         std::pair<int, int> currentGrid = PositionInWorldToGrid(currentNode->site());
 
         if (currentGrid == endGrid) {
             std::vector<std::pair<float, float>> path;
-            std::shared_ptr<Node> node = std::make_shared<Node>(currentNode);
+            std::shared_ptr<Node> node = currentNode;
 
             while (node != nullptr) {
                 path.emplace_back(node->site());
-                std::shared_ptr<Node> ptr = node;
                 node = node->parent;
             }
             return path;
@@ -42,7 +42,7 @@ std::vector<std::pair<float, float>> Hybrid_Astar::Search(std::pair<float, float
             std::pair<int, int> childGrid = PositionInWorldToGrid(child->site());
 
             if (Gridmap.state(childGrid) == State::EMPTY) {
-                OpenList.push(*child);
+                OpenList.push(child);
                 Gridmap.updateState(childGrid, State::OPEND);
             }
             // Grid.state内含边界判断

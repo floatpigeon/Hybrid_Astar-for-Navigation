@@ -29,7 +29,7 @@ std::vector<std::pair<float, float>> K_Astar::Search(std::pair<float, float> beg
 
         std::vector<std::shared_ptr<Node>> children = currentNode->GenerateChildren(1, end);
 
-        // judge is can arrive ?
+        // judge it can arrive ?
         for (const std::shared_ptr<Node>& child : children) {
             if (true) {
                 OpenList.push(*child);

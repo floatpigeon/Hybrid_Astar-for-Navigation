@@ -1,6 +1,7 @@
 #include "GridMap.hpp"
 
 #include <iostream>
+#include <utility>
 
 #include "colorfulUI.hpp"
 
@@ -17,7 +18,7 @@ void GridMap::updateState(const std::pair<int, int>& position, const State& stat
 }
 
 void GridMap::updatePath(const std::vector<std::pair<int, int>>& path) {
-    for (const auto& point : path) Map[point.first][point.second] = State::PATH;
+    for (const std::pair<int, int>& point : path) Map[point.first][point.second] = State::PATH;
 }
 
 void GridMap::show() {

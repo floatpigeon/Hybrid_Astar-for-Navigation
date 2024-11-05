@@ -13,7 +13,7 @@ std::pair<float, float> Node::site() const {
 float Node::calc_g() {
     if (parent != nullptr) {
         float i = x - parent->x;
-        float j = y - parent->x;
+        float j = y - parent->y;
         value_g = sqrtf(i * i + j * j) + parent->value_g;
     } else
         value_g = 0;
@@ -47,9 +47,9 @@ std::vector<std::shared_ptr<Node>> Node::GenerateChildren(float step,
         return children;
     }
 
-    for (int angle = 0; angle < 4; angle++) {
-        std::pair<float, float> current(x + step * cosf(angle / 2.0 * M_PI),
-                                        y + step * sinf(angle / 2.0 * M_PI));
+    for (int angle = 0; angle < 8; angle++) {
+        std::pair<float, float> current(x + step * cosf(angle / 4.0 * M_PI),
+                                        y + step * sinf(angle / 4.0 * M_PI));
         std::shared_ptr<Node> child =
             std::make_shared<Node>(current.first, current.second, shared_from_this());
         child->calc_h(end);

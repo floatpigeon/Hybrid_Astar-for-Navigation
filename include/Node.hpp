@@ -15,7 +15,10 @@ public:
     std::pair<float, float> site() const;
 
     float value_f() const;
-    bool operator>(const Node& other) const { return value_f() > other.value_f(); }
+
+    // bool operator>(const std::shared_ptr<Node>& other) const {
+    //     return value_f() > other->value_f();
+    // }
 
     std::vector<std::shared_ptr<Node>> GenerateChildren(float step, std::pair<float, float>& end);
 
@@ -24,4 +27,11 @@ private:
     float calc_h(std::pair<float, float> end, int type = 0);
     float x, y;
     float value_g, value_h;
+};
+
+class GreaterNode {
+public:
+    bool operator()(std::shared_ptr<Node>& self, std::shared_ptr<Node>& other) const {
+        return self->value_f() > other->value_f();
+    }
 };

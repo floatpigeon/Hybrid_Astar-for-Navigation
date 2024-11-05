@@ -15,5 +15,6 @@ public:
 private:
     float size;
     GridMap& Gridmap;
-    std::priority_queue<Node, std::vector<Node>, std::greater<Node>> OpenList;
+    std::priority_queue<std::shared_ptr<Node>, std::vector<std::shared_ptr<Node>>, GreaterNode>
+        OpenList;
 };
