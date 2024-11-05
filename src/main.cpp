@@ -42,7 +42,7 @@ int main() {
     //         if (num_map[i][j]) map[i][j] = State::OBSTACLE;
     //     }
     // }
-    //-------------------------------------------------------------------------------------
+    //---------------------------------------------------------------------------------------------
 
     // GridMap mymap(std::move(map));
     // std::pair<int, int> site(1, 0);
@@ -52,7 +52,7 @@ int main() {
     //     std::cout << "..." << std::endl;
     // } else
     //     std::cout << "___" << std::endl;
-    //-------------------------------------------------------------------------------------
+    //---------------------------------------------------------------------------------------------
 
     // std::priority_queue<Node, std::vector<Node>, std::greater<Node>> OpenList;
     // std::pair<float, float> end(2, 2);
@@ -67,43 +67,33 @@ int main() {
 
     // Eigen::Vector2f E_end(2.0, 2.0);
     // currentNode->test(E_end);
-    //-------------------------------------------------------------------------------------
+    //---------------------------------------------------------------------------------------------
 
     std::vector<std::vector<int>> my_num_map = {{0, 0, 0}, {1, 0, 0}, {0, 0, 0}};
-    std::pair<float, float> begin(0, 0);
-
     std::vector<std::vector<State>> my_grid_map(
         my_num_map.size(), std::vector<State>(my_num_map[0].size(), State::UNKNOW));
-
     NummapToGridmap(my_num_map, my_grid_map);
     GridMap my_map(std::move(my_grid_map));
 
-    // if (my_map.state(begin) == State::EMPTY) {
-    //     std::cout << ".." << std::endl;
-    // }
-
     std::priority_queue<std::shared_ptr<Node>, std::vector<std::shared_ptr<Node>>, GreaterNode>
         OpenList;
-
+    std::pair<float, float> begin(0, 0);
+    std::pair<float, float> end(2.0, 2.0);
     std::shared_ptr<Node> beginNode = std::make_shared<Node>(0, 1, nullptr);
     OpenList.push(beginNode);
-    std::pair<float, float> end(2.0, 2.0);
 
     std::vector<std::shared_ptr<Node>> children = beginNode->GenerateChildren(1.5, end);
 
     for (const auto& point : children) {
-        std::cout << point->site().first << "|" << point->site().second << std::endl;
         OpenList.push(point);
     }
     std::cout << ".." << std::endl;
 
     while (!OpenList.empty()) {
-        std::cout << OpenList.top()->site().first << std::endl;
-        std::cout << OpenList.top()->value_f() << std::endl;
-        std::cout << "." << std::endl;
-
+        std::cout << OpenList.top()->value_f() << " | " << OpenList.top()->site().first << " | "
+                  << OpenList.top()->site().second << std::endl;
         OpenList.pop();
     }
-
+    //---------------------------------------------------------------------------------------------
     return 0;
 }
