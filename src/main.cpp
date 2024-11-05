@@ -9,11 +9,11 @@
 #include <vector>
 
 #include "GridMap.hpp"
-#include "Hybrid_Astar.hpp"
+#include "HybridAstar.hpp"
 #include "Node.hpp"
 
-void NummapToGridmap(std::vector<std::vector<int>>& nummap,
-                     std::vector<std::vector<State>>& gridmap) {
+void nummap_to_gridmap(std::vector<std::vector<int>>& nummap,
+                       std::vector<std::vector<State>>& gridmap) {
     for (std::size_t i = 0; i < nummap.size(); i++) {
         for (std::size_t j = 0; j < nummap[0].size(); j++) {
             if (nummap[i][j]) {
@@ -118,7 +118,7 @@ int main() {
         {0, 0, 0, 0}, {1, 1, 0, 0}, {0, 0, 0, 0}, {0, 0, 1, 1}};
     std::vector<std::vector<State>> my_grid_map(
         my_num_map.size(), std::vector<State>(my_num_map[0].size(), State::UNKNOW));
-    NummapToGridmap(my_num_map, my_grid_map);
+    nummap_to_gridmap(my_num_map, my_grid_map);
     GridMap my_map(std::move(my_grid_map));
 
     HybridAstar my_Astar(my_map);

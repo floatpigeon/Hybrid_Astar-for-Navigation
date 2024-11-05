@@ -18,7 +18,7 @@ private:
     float size_;
     GridMap& gridmap_;
     std::priority_queue<std::shared_ptr<Node>, std::vector<std::shared_ptr<Node>>, GreaterNode>
-        OpenList;
+        OpenList_;
 };
 
 template <typename T>
@@ -26,10 +26,10 @@ std::vector<std::pair<float, float>> HybridAstar::Search(T&& begin, T&& end) {
     std::shared_ptr<Node> beginNode = std::make_shared<Node>(begin.first, begin.second, nullptr);
     std::pair<int, int> endGrid = position_in_world_to_grid(end);
 
-    OpenList.push(beginNode);
-    while (!OpenList.empty()) {
-        std::shared_ptr<Node> currentNode = OpenList.top();
-        OpenList.pop();
+    OpenList_.push(beginNode);
+    while (!OpenList_.empty()) {
+        std::shared_ptr<Node> currentNode = OpenList_.top();
+        OpenList_.pop();
         std::pair<int, int> currentGrid = position_in_world_to_grid(currentNode->site());
 
         if (currentGrid == endGrid) {
@@ -59,7 +59,7 @@ std::vector<std::pair<float, float>> HybridAstar::Search(T&& begin, T&& end) {
 
             if (gridmap_.state(childGrid) != State::OBSTACLE &&
                 gridmap_.state(childGrid) != State::CLOSED) {
-                OpenList.push(child);
+                OpenList_.push(child);
                 gridmap_.updateState(childGrid, State::OPEND);
                 std::cout << child->site().first << " | " << child->site().second << std::endl;
             }

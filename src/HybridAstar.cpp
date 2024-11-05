@@ -5,7 +5,7 @@ README
 先全部扔到.hpp文件中
 */
 
-#include "Hybrid_Astar.hpp"
+#include "HybridAstar.hpp"
 
 #include <iostream>
 #include <memory>
