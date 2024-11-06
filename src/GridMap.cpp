@@ -3,28 +3,24 @@
 #include <iostream>
 #include <utility>
 
-#include "colorfulUI.hpp"
+#include "ColorfulUI.hpp"
 
 State GridMap::state(std::pair<int, int>& position) {
-    return Map[position.first][position.second];
+    return Map_[position.first][position.second];
 }
 
-void GridMap::updateState(const std::pair<int, int>& position, const State& state) {
-    if (position.first >= 0 && position.first < row && position.second >= 0 &&
-        position.second < col) {
-        Map[position.first][position.second] = state;
-    } else
-        std::cout << "update State over range" << std::endl;
+void GridMap::update_State(const std::pair<int, int>& position, const State& state) {
+    Map_[position.first][position.second] = state;
 }
 
-void GridMap::updatePath(const std::vector<std::pair<int, int>>& path) {
-    for (const std::pair<int, int>& point : path) Map[point.first][point.second] = State::PATH;
+void GridMap::update_Path(const std::vector<std::pair<int, int>>& path) {
+    for (const std::pair<int, int>& point : path) Map_[point.first][point.second] = State::PATH;
 }
 
 void GridMap::show() {
-    for (int i = 0; i < row; i++) {
-        for (int j = 0; j < col; j++) {
-            switch (Map[i][j]) {
+    for (int i = 0; i < row_; i++) {
+        for (int j = 0; j < col_; j++) {
+            switch (Map_[i][j]) {
             case State::EMPTY:
                 std::cout << WHITE << "  " << RESET;
                 break;
@@ -45,4 +41,12 @@ void GridMap::show() {
         }
         std::cout << std::endl;
     }
+}
+
+bool GridMap::is_in_bounds(std::pair<int, int>& position) {
+    if (position.first < 0 || position.first >= row_ || position.second < 0 ||
+        position.second >= col_)
+        return false;
+    else
+        return true;
 }

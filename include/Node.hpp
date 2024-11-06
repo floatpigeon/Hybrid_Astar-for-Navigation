@@ -7,9 +7,9 @@
 
 class Node : public std::enable_shared_from_this<Node> {
 public:
-    Node(float x, float y, std::shared_ptr<Node> parent) : x(x), y(y), parent(parent) {
+    Node(float x, float y, std::shared_ptr<Node> parent) : x_(x), y_(y), parent(parent) {
         calc_g();
-        value_h = 0;
+        value_h_ = 0;
     }
 
     const std::shared_ptr<Node> parent;
@@ -22,8 +22,8 @@ public:
 private:
     float calc_g();
     float calc_h(std::pair<float, float> end, int type = 0);
-    float x, y;
-    float value_g, value_h;
+    float x_, y_;
+    float value_g_, value_h_;
 };
 
 class GreaterNode {

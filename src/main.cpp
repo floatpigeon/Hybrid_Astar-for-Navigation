@@ -1,5 +1,3 @@
-// #include <Eigen/src/Core/Matrix.h>
-
 #include <cstddef>
 #include <iostream>
 #include <memory>
@@ -115,7 +113,7 @@ int main() {
     //---------------------------------------------------------------------------------------------
 
     std::vector<std::vector<int>> my_num_map = {
-        {0, 0, 0, 0}, {1, 1, 0, 0}, {0, 0, 0, 0}, {0, 0, 1, 1}};
+        {0, 0, 0, 0}, {1, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 1, 1}};
     std::vector<std::vector<State>> my_grid_map(
         my_num_map.size(), std::vector<State>(my_num_map[0].size(), State::UNKNOW));
     nummap_to_gridmap(my_num_map, my_grid_map);

@@ -9,6 +9,6 @@ find_package(Eigen3 REQUIRED NO_MODULE)
 
 include_directories(include)
 
-add_executable(Project src/main.cpp src/Node.cpp src/GridMap.cpp src/Hybrid_Astar.cpp)
+add_executable(Project src/main.cpp src/Node.cpp src/GridMap.cpp src/HybridAstar.cpp)
 
 target_link_libraries(Project Eigen3::Eigen)

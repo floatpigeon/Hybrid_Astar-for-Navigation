@@ -52,7 +52,7 @@ std::vector<std::pair<float, float>> HybridAstar::Search(T&& begin, T&& end) {
             return path;
         }
 
-        gridmap_.updateState(currentNode->site(), State::CLOSED);
+        gridmap_.update_State(currentNode->site(), State::CLOSED);
 
         std::vector<std::shared_ptr<Node>> children = currentNode->GenerateChildren(1.5, end);
 
