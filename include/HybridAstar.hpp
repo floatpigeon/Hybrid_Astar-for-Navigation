@@ -27,11 +27,13 @@ private:
 
 template <typename T>
 std::vector<std::pair<float, float>> HybridAstar::Search(T&& begin, T&& end) {
+    int times = 0;
     std::shared_ptr<Node> beginNode = std::make_shared<Node>(begin.first, begin.second, nullptr);
     std::pair<int, int> endGrid = position_in_world_to_grid(end);
 
     OpenList_.push(beginNode);
     while (!OpenList_.empty()) {
+        times++;
         std::shared_ptr<Node> currentNode = OpenList_.top();
         OpenList_.pop();
         std::pair<int, int> currentGrid = position_in_world_to_grid(currentNode->site());
@@ -43,18 +45,23 @@ std::vector<std::pair<float, float>> HybridAstar::Search(T&& begin, T&& end) {
             std::shared_ptr<Node> node = currentNode;
 
             while (node != nullptr) {
+                // 可视化测试
+                std::pair<int, int> pathgrid = position_in_world_to_grid(node->site());
+                gridmap_.update_State(pathgrid, State::PATH);
+                //
                 path.emplace_back(node->site());
                 node = node->parent;
             }
             std::cout << "path find.Step:" << path.size() << std::endl;
             for (const auto& coo : path) std::cout << coo.first << "|" << coo.second << std::endl;
-
+            gridmap_.show();
+            std::cout << times << std::endl;
             return path;
         }
 
         gridmap_.update_State(currentNode->site(), State::CLOSED);
 
-        std::vector<std::shared_ptr<Node>> children = currentNode->GenerateChildren(1.5, end);
+        std::vector<std::shared_ptr<Node>> children = currentNode->GenerateChildren(1.8, end);
 
         for (const std::shared_ptr<Node>& child : children) {
             if (accessible(child)) {

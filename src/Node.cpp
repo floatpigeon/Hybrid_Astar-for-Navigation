@@ -50,10 +50,8 @@ std::vector<std::shared_ptr<Node>> Node::GenerateChildren(float step,
         std::cout << "finish" << std::endl;
         return children;
     }
-    std::cout << "current:" << shared_from_this()->site().first << "|"
-              << shared_from_this()->site().second << std::endl;
 
-    int branch = 8;
+    int branch = 16;
     std::cout << "children:" << std::endl;
 
     for (int i = 0; i < branch; i++) {
