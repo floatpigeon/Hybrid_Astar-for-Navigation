@@ -50,7 +50,10 @@ std::vector<std::shared_ptr<Node>> Node::GenerateChildren(float step,
         std::cout << "finish" << std::endl;
         return children;
     }
-
+    /*
+    branch 和 step 存在某种关联
+    关乎运算效率和成功率
+     */
     int branch = 16;
     std::cout << "children:" << std::endl;
 
@@ -68,3 +71,8 @@ std::vector<std::shared_ptr<Node>> Node::GenerateChildren(float step,
     }
     return children;
 }
+
+/*
+运行速度慢，有很大一部分呢是因为输出log太多
+下一步学着试试多线程
+*/
