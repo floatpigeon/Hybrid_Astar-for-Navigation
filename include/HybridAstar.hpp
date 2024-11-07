@@ -53,7 +53,7 @@ std::vector<std::pair<float, float>> HybridAstar::Search(T&& begin, T&& end) {
                 node = node->parent;
             }
             std::cout << "path find.Step:" << path.size() << std::endl;
-            for (const auto& coo : path) std::cout << coo.first << "|" << coo.second << std::endl;
+            for (const auto& coo : path) std::cout << coo.first << " | " << coo.second << std::endl;
             gridmap_.show();
             std::cout << times << std::endl;
             return path;
@@ -65,12 +65,10 @@ std::vector<std::pair<float, float>> HybridAstar::Search(T&& begin, T&& end) {
 
         for (const std::shared_ptr<Node>& child : children) {
             if (accessible(child)) {
-                std::cout << "push it" << std::endl;
                 OpenList_.push(child);
             }
         }
     }
-    std::cout << "OpenList empty" << std::endl;
 
     return {};
 }
@@ -83,23 +81,18 @@ inline std::pair<int, int> HybridAstar::position_in_world_to_grid(
 }
 
 inline bool HybridAstar::accessible(const std::shared_ptr<Node>& node) {
-    std::cout << "judge begin:  " << node->site().first << " | " << node->site().second
-              << std::endl;
     std::pair<int, int> nodeGrid = position_in_world_to_grid(node->site());
     // 子节点越界判断
     if (!gridmap_.is_in_bounds(nodeGrid)) {
-        std::cout << "over range" << std::endl;
         return false;
     }
     // 子节点状态判断
     if (gridmap_.state(nodeGrid) == State::OBSTACLE || gridmap_.state(nodeGrid) == State::CLOSED) {
-        std::cout << "state wrong" << std::endl;
         return false;
     }
     // 重复选择判断
     std::pair<int, int> parentGrid = position_in_world_to_grid(node->parent->site());
     if (nodeGrid == parentGrid) {
-        std::cout << "reselect" << std::endl;
         return false;
     }
     // 子节点路径判断

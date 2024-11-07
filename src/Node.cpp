@@ -55,13 +55,10 @@ std::vector<std::shared_ptr<Node>> Node::GenerateChildren(float step,
     关乎运算效率和成功率
      */
     int branch = 16;
-    std::cout << "children:" << std::endl;
 
     for (int i = 0; i < branch; i++) {
         double angle = static_cast<double>(i) / branch * 2.0 * M_PI;
         std::pair<float, float> current(x_ + step * cos(angle), y_ + step * sin(angle));
-
-        std::cout << current.first << " | " << current.second << std::endl;
 
         std::shared_ptr<Node> child =
             std::make_shared<Node>(current.first, current.second, shared_from_this());

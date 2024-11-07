@@ -25,7 +25,6 @@ void GridMap::show() {
             case State::CLOSED:
             case State::OPEND:
 
-                // std::cout << "**";
                 std::cout << WHITE << "  " << RESET;
                 break;
             case State::OBSTACLE:
