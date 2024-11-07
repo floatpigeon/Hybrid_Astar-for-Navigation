@@ -25,7 +25,7 @@ float Node::calc_h(std::pair<float, float> end, int type) {
     float i = x_ - end.first;
     float j = y_ - end.second;
     float h;
-    if (type)
+    if (type == 1)
         h = sqrtf(i * i + j * j);
     else
         h = abs(i) + abs(j);

@@ -103,7 +103,7 @@ int main() {
 
     HybridAstar my_Astar(my_map);
     std::vector<std::pair<float, float>> path =
-        my_Astar.Search(std::pair<float, float>{1, 1}, std::pair<float, float>{8, 40});
+        my_Astar.Search(std::pair<float, float>{18, 10}, std::pair<float, float>{22, 42});
 
     auto _end = std::chrono::high_resolution_clock::now();
     std::chrono::duration<double> duration = _end - start;
