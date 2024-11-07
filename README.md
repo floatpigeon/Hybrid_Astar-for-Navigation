@@ -2,12 +2,17 @@
 This is a navigation system learning project
 
 I use it for 
-* storage my code
-* learn git
-* do something interesting
+* Storage my code of Navigation Learning
+* Learn git
+* Try something interesting
 
-use Clangd
+Use Clangd
 
-command:
+STEP 1:
 
-cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=ON ..
+* finish the Hybrid Astar, now can find path on 2D map
+* use mordern c++ instead of c++98 which taught in univercity class
+
+NEXT:
+* I want to learn and program with multithreading
+* for outputting log, for recording
