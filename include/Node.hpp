@@ -7,7 +7,7 @@
 
 class Node : public std::enable_shared_from_this<Node> {
 public:
-    Node(float x, float y, std::shared_ptr<Node> parent) : x_(x), y_(y), parent(parent) {
+    Node(float x, float y, std::shared_ptr<Node> parent) : angle(0), x_(x), y_(y), parent(parent) {
         calc_g();
         value_h_ = 0;
     }
@@ -19,9 +19,13 @@ public:
 
     std::vector<std::shared_ptr<Node>> GenerateChildren(float step, std::pair<float, float>& end);
 
+    double get_h() { return value_h_; }
+    double get_g() { return value_g_; }
+    float calc_h(std::pair<float, float>& end, int type = 1);
+    float angle;
+
 private:
     float calc_g();
-    float calc_h(std::pair<float, float> end, int type = 0);
     float x_, y_;
     float value_g_, value_h_;
 };

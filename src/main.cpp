@@ -141,18 +141,15 @@ int main() {
     std::cout << "Time taken: " << duration.count() << " seconds" << std::endl;
     //---------------------------------------------------------------------------------------------
 
-    // std::vector<std::pair<int, int>> gridpath;
-    // for (const auto& point : path) {
-    //     std::pair<int, int> grid = position_in_world_to_grid(point, 1.0);
-    //     gridpath.emplace_back(grid);
-    // }
-    // std::vector<std::vector<State>> UI_grid_map(
-    //     my_num_map.size(), std::vector<State>(my_num_map[0].size(), State::UNKNOW));
-    // nummap_to_gridmap(my_num_map, my_grid_map);
-
-    // GridMap UImap(std::move(UI_grid_map));
-    // UImap.update_Path(gridpath);
-    // UImap.show();
+    UI ui;
+    ui.Init(*my_num_map, 20);
+    ui.update_path(path);
+    ui.show();
 
     return 0;
 }
+
+/*
+添加转向惩罚
+启发函数倍率
+*/

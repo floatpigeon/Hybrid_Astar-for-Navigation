@@ -29,6 +29,7 @@ template <typename T>
 std::vector<std::pair<float, float>> HybridAstar::Search(T&& begin, T&& end) {
     int times = 0;
     std::shared_ptr<Node> beginNode = std::make_shared<Node>(begin.first, begin.second, nullptr);
+    beginNode->calc_h(end);
     std::pair<int, int> endGrid = position_in_world_to_grid(end);
 
     OpenList_.push(beginNode);
