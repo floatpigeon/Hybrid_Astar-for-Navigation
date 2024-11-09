@@ -22,7 +22,6 @@ void GridMap::show() {
         for (int j = 0; j < col_; j++) {
             switch (Map_[i][j]) {
             case State::EMPTY:
-            case State::CLOSED:
             case State::OPEND:
 
                 // std::cout << "**";
@@ -33,6 +32,9 @@ void GridMap::show() {
                 break;
             case State::PATH:
                 std::cout << GREEN << "  " << RESET;
+                break;
+            case State::CLOSED:
+                std::cout << BLUE << "  " << RESET;
                 break;
             case State::POINT:
                 std::cout << RED << "  " << RESET;

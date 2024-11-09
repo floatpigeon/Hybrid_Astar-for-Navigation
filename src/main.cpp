@@ -1,3 +1,4 @@
+#include <algorithm>
 #include <chrono>
 #include <cstddef>
 #include <iostream>
@@ -7,6 +8,7 @@
 #include <utility>
 #include <vector>
 
+#include "EZUI.hpp"
 #include "GridMap.hpp"
 #include "HybridAstar.hpp"
 #include "Node.hpp"
@@ -134,11 +136,12 @@ int main() {
 
     HybridAstar my_Astar(my_map);
     std::vector<std::pair<float, float>> path =
-        my_Astar.Search(std::pair<float, float>{1, 1}, std::pair<float, float>{8, 40});
+        my_Astar.Search(std::pair<float, float>{20, 12}, std::pair<float, float>{23, 38});
 
     auto _end = std::chrono::high_resolution_clock::now();
     std::chrono::duration<double> duration = _end - start;
     std::cout << "Time taken: " << duration.count() << " seconds" << std::endl;
+
     //---------------------------------------------------------------------------------------------
 
     UI ui;
