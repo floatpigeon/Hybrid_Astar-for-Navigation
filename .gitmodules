@@ -1,0 +1,3 @@
+[submodule "include/map_identifier"]
+	path = include/map_identifier
+	url = https://github.com/floatpigeon/Map_recognition_by_OpenCV

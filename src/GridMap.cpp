@@ -23,8 +23,6 @@ void GridMap::show() {
             switch (Map_[i][j]) {
             case State::EMPTY:
             case State::OPEND:
-
-                // std::cout << "**";
                 std::cout << WHITE << "  " << RESET;
                 break;
             case State::OBSTACLE:
