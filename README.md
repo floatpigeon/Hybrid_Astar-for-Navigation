@@ -6,13 +6,10 @@ I use it for
 * Learn git
 * Try something interesting
 
-Use Clangd
+Using Clangd
 
-STEP 1:
-
-* finish the Hybrid Astar, now can find path on 2D map
-* use mordern c++ instead of c++98 which taught in univercity class
-
-NEXT:
-* I want to learn and program with multithreading
-* for outputting log, for recording
+How to use it?
+* Ctrl + mouse left can set begin point
+* Shift + mouse left can set end point
+* press Enter show the path (use points)
+* press L show you saved begin and end point
