@@ -14,7 +14,6 @@ public:
     inline std::pair<int, int> position_in_world_to_grid(std::pair<float, float> position);
     inline bool accessible(const std::shared_ptr<Node>& node);
 
-    // 万能引用
     template <typename T>
     std::vector<std::pair<float, float>> Search(T&& begin, T&& end);
 
@@ -25,24 +24,31 @@ private:
         OpenList_;
 };
 
+/*-------------------------------------------------------------------------------------------------*/
+/*-------------------------------------------------------------------------------------------------*/
+
 template <typename T>
 std::vector<std::pair<float, float>> HybridAstar::Search(T&& begin, T&& end) {
-    int times = 0;
-    std::shared_ptr<Node> beginNode = std::make_shared<Node>(begin.first, begin.second, nullptr);
+    std::shared_ptr<Node> beginNode =
+        std::make_shared<Node>(begin.first, begin.second, end, nullptr);
     std::pair<int, int> endGrid = position_in_world_to_grid(end);
 
     OpenList_.push(beginNode);
     while (!OpenList_.empty()) {
-        times++;
         std::shared_ptr<Node> currentNode = OpenList_.top();
         OpenList_.pop();
         std::pair<int, int> currentGrid = position_in_world_to_grid(currentNode->site());
+
+        if (gridmap_.state(currentGrid) == State::CLOSED) {
+            continue;
+        }
 
         if (currentGrid == endGrid) {
             std::cout << "find it" << std::endl;
 
             std::vector<std::pair<float, float>> path;
-            std::shared_ptr<Node> node = currentNode;
+            std::shared_ptr<Node> node = std::make_shared<Node>(
+                currentNode->site().first, currentNode->site().second, end, currentNode);
 
             while (node != nullptr) {
                 // 可视化测试
@@ -55,13 +61,13 @@ std::vector<std::pair<float, float>> HybridAstar::Search(T&& begin, T&& end) {
             std::cout << "path find.Step:" << path.size() << std::endl;
             for (const auto& coo : path) std::cout << coo.first << " | " << coo.second << std::endl;
             gridmap_.show();
-            std::cout << times << std::endl;
+
             return path;
         }
 
         gridmap_.update_State(currentNode->site(), State::CLOSED);
 
-        std::vector<std::shared_ptr<Node>> children = currentNode->GenerateChildren(1.8, end);
+        std::vector<std::shared_ptr<Node>> children = currentNode->GenerateChildren(1.6, end);
 
         for (const std::shared_ptr<Node>& child : children) {
             if (accessible(child)) {
@@ -75,8 +81,8 @@ std::vector<std::pair<float, float>> HybridAstar::Search(T&& begin, T&& end) {
 
 inline std::pair<int, int> HybridAstar::position_in_world_to_grid(
     std::pair<float, float> position) {
-    int x = position.first / size_;
-    int y = position.second / size_;
+    int x = static_cast<double>(position.first / size_);
+    int y = static_cast<double>(position.second / size_);
     return std::pair<int, int>(x, y);
 }
 
@@ -96,13 +102,6 @@ inline bool HybridAstar::accessible(const std::shared_ptr<Node>& node) {
         return false;
     }
     // 子节点路径判断
-    if (abs(nodeGrid.first - parentGrid.first) > 1 ||
-        abs(nodeGrid.second - parentGrid.second) > 1) {
-        std::pair<int, int> midGrid((nodeGrid.first + parentGrid.first) / 2,
-                                    (nodeGrid.second + parentGrid.first) / 2);
-        if (gridmap_.state(midGrid) == State::OBSTACLE || gridmap_.state(midGrid) == State::CLOSED)
-            return false;
-    }
 
     return true;
 }
