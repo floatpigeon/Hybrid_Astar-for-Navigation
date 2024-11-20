@@ -75,6 +75,7 @@ std::vector<std::pair<float, float>> HybridAstar::Search(T&& begin, T&& end) {
             }
         }
     }
+    std::cout << "path empty" << std::endl;
 
     return {};
 }
@@ -83,6 +84,8 @@ inline std::pair<int, int> HybridAstar::position_in_world_to_grid(
     std::pair<float, float> position) {
     int x = static_cast<double>(position.first / size_);
     int y = static_cast<double>(position.second / size_);
+    // int x = position.first / static_cast<float>(size_) - 0.5;
+    // int y = position.second / static_cast<float>(size_) - 0.5;
     return std::pair<int, int>(x, y);
 }
 
