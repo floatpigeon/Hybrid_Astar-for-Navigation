@@ -1,15 +1,15 @@
 cmake_minimum_required(VERSION 3.12)
 project(Project)
 
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 20)
 
 include_directories(include)
 
 add_executable(Project src/main.cpp src/Node.cpp src/GridMap.cpp src/HybridAstar.cpp src/EZUI.cpp src/map_identifier.cpp)
 # add_executable(Project src/test.cpp)
 
-find_package(Eigen3 REQUIRED NO_MODULE)
-target_link_libraries(Project Eigen3::Eigen)
+# find_package(Eigen3 REQUIRED NO_MODULE)
+# target_link_libraries(Project Eigen3::Eigen)
 
 find_package(OpenCV REQUIRED)
 target_link_libraries(Project ${OpenCV_LIBS} pthread)
